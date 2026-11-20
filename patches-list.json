@@ -3,7 +3,7 @@
   "patches": [
     {
       "name": "SharkLatan AirPlay",
-      "description": "AirPlay para YouTube 21.30.216 previamente parcheado con Morphe. Segundo paso independiente.",
+      "description": "Native AirPlay integration for the original YouTube 21.30.216 APK, applied together with Morphe YouTube patches. Native playback controls, receiver volume, thumbnail display and autoplay. Additional versions will be supported after adaptation and testing.",
       "default": false,
       "compatiblePackages": [
         {

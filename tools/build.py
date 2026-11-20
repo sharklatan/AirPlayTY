@@ -45,7 +45,7 @@ def build():
  patchjar=build/'patch.jar';jar(patch,patchjar);patchdex=build/'patch-dex';dex([patchjar],patchdex,[cli])
  output=dist/f'patches-{args.version}.mpp'
  with zipfile.ZipFile(output,'w',zipfile.ZIP_DEFLATED) as z:
-  z.writestr('META-INF/MANIFEST.MF','Manifest-Version: 1.0\r\nName: Sharklatan AirPlay\r\nVersion: '+args.version+'\r\nDescription: AirPlay for previously patched YouTube 21.30.216\r\nAuthor: Sharklatan\r\nPatcher-Version: 2.4.0\r\n\r\n')
+  z.writestr('META-INF/MANIFEST.MF','Manifest-Version: 1.0\r\nName: SharkLatan AirPlay\r\nVersion: '+args.version+'\r\nDescription: AirPlay for original YouTube 21.30.216 with Morphe patches\r\nAuthor: Sharklatan\r\nPatcher-Version: 2.4.0\r\n\r\n')
   for f in patch.rglob('*.class'):z.write(f,f.relative_to(patch).as_posix())
   for f in patchdex.glob('*.dex'):z.write(f,f.name)
   z.write(runtimedex/'classes.dex','extensions/extension.mpe')
@@ -61,7 +61,7 @@ def build():
  # Load the actual artifact with Morphe, independently of Android APK signing.
  run(java/('java'+exe),'-jar',cli,'list-patches','--patches='+str(output),'-p','-v','--out='+str(dist/'patch-list.txt'))
  repo=os.environ.get('GITHUB_REPOSITORY','')
- metadata={'version':args.version,'created_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),'description':'AirPlay for YouTube 21.30.216 previously patched with Morphe. Independent second pass.','download_url':f'https://github.com/{repo}/releases/download/v{args.version}/{output.name}' if repo else '', 'signature_download_url':''}
+ metadata={'version':args.version,'created_at':datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S'),'description':'AirPlay for original YouTube 21.30.216. Select together with Morphe YouTube patches.','download_url':f'https://github.com/{repo}/releases/download/v{args.version}/{output.name}' if repo else '', 'signature_download_url':''}
  (ROOT/'patches-bundle.json').write_text(json.dumps(metadata,indent=2)+'\n',encoding='utf-8')
  if repo:
   p=ROOT/'README.md';text=p.read_text(encoding='utf-8');link=f'[Añadir a Morphe](https://morphe.software/add-source?github={repo})'

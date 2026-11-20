@@ -54,16 +54,16 @@ public final class AirPlayPatch {
     });
 
     public static final Patch AIRPLAY = PatchKt.bytecodePatch(
-            "Sharklatan AirPlay", "Envía vídeo y audio a AirPlay con los controles de YouTube. " +
-            "Segundo paso para YouTube 21.30.216 ya parcheado. Requiere Spoof video streams " +
-            "y los parches habituales de Morphe que aportan VideoInformation. " +
-            "Los saltos conservan la reconexión del receptor compatible.", false, builder -> {
-                builder.compatibleWith(Compatibility.Companion.fromLegacy(new Pair<>("app.morphe.android.youtube", Collections.singleton("21.30.216"))));
+            "SharkLatan AirPlay", "Native AirPlay integration for YouTube 21.30.216. " +
+            "Apply to the original YouTube APK together with Morphe YouTube patches, including Spoof video streams. " +
+            "Supports native playback controls, receiver volume, thumbnail display, autoplay and local recovery. " +
+            "Support for additional YouTube versions will be added after their integrations are completed and tested.", false, builder -> {
+                builder.compatibleWith(Compatibility.Companion.fromLegacy(new Pair<>("com.google.android.youtube", Collections.singleton("21.30.216"))));
                 
                 builder.dependsOn(resources); builder.extendWith(()->resource("extensions/extension.mpe"));
-                // Separate second pass over an APK already patched with Morphe.
+                // Run after every selected patch has executed and extensions have been merged.
                 // The hook adapter excludes this extension from rewriting.
-                builder.execute(context -> {
+                builder.finalize(context -> {
                     AirPlayHooks.rewrite(context);
                     
                     return Unit.INSTANCE;

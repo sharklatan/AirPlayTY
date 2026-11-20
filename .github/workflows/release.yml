@@ -50,9 +50,10 @@ jobs:
         run: |
           tag="v$REQUESTED_VERSION"
           if ! gh release view "$tag" >/dev/null 2>&1; then
-            gh release create "$tag" --title "Sharklatan AirPlay $REQUESTED_VERSION" --notes-file RELEASE_NOTES.md
+            gh release create "$tag" --title "SharkLatan AirPlay $REQUESTED_VERSION" --notes-file RELEASE_NOTES.md
           fi
           gh release upload "$tag" dist/*.mpp dist/SHA256SUMS.txt --clobber
+          gh release edit "$tag" --title "SharkLatan AirPlay $REQUESTED_VERSION" --notes-file RELEASE_NOTES.md --latest
       - name: Publish source metadata and Add button
         run: |
           git config user.name 'github-actions[bot]'

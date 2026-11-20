@@ -1,70 +1,70 @@
-# Sharklatan AirPlay
+# SharkLatan AirPlay
 
-Parche independiente compatible con **Morphe**, para enviar vídeo y audio de YouTube a un receptor AirPlay utilizando los controles y gestos nativos de YouTube.
+Native AirPlay integration for **YouTube 21.30.216**, compatible with **Morphe**. Stream video and audio to an AirPlay receiver while using YouTube's native playback controls and gestures.
 
 <!-- ADD_SOURCE_START -->
 [Añadir a Morphe](https://morphe.software/add-source?github=sharklatan/AirPlayTY)
 <!-- ADD_SOURCE_END -->
 
-## Compatibilidad de esta versión
+## Supported version
 
-| Elemento | Compatibilidad |
+| Component | Support |
 | --- | --- |
-| YouTube | **21.30.216**, previamente parcheado con Morphe |
-| Paquete de entrada | `app.morphe.android.youtube` |
-| Motor | Morphe Patcher **2.4.0** |
-| Formato | `.mpp` |
-| Receptor probado | Hisense 50A6NU / VIDAA |
+| Input application | Original, unmodified YouTube APK |
+| Input package | `com.google.android.youtube` |
+| YouTube version | **21.30.216** |
+| Patch engine | Morphe Patcher **2.4.0** |
+| Patch bundle | `.mpp` |
+| Tested receiver | Hisense 50A6NU / VIDAA |
 
-**Es un segundo paso de parcheo.** Esta entrega no se aplica directamente a la APK original `com.google.android.youtube` ni declara compatibilidad con 21.45.83. Primero genera YouTube con Morphe y **Spoof video streams**, después aplica únicamente Sharklatan AirPlay a esa APK. No vuelvas a aplicar los parches principales al resultado del primer paso.
+Apply AirPlay **in the same patching run** as the official Morphe YouTube patches, including **Spoof video streams**. Do not use an already patched APK as input.
 
-La reproducción con la APK de adaptación fue confirmada por el usuario. La compilación del paquete `.mpp`, su carga y su ejecución se verifican aparte; eso no equivale a certificar todos los receptores AirPlay. No se incluye la versión anterior de ReVanced 20.40.45: su código y respaldo permanecen en el proyecto de origen.
+Support for additional YouTube versions will be added as their integrations and required patches are completed and tested. Version 21.45.83 is not supported by this release. This project is independent and is not certified by Apple.
 
-## Subir esta carpeta manualmente
+## Install the patch source
 
-1. Crea un repositorio **público** en GitHub, por ejemplo `sharklatan-airplay-patches`.
-2. Sube **el contenido de esta carpeta**, incluyendo `.github`, `gradle`, `gradlew` y los demás archivos. No subas la carpeta externa como un nivel adicional.
-3. En GitHub, abre **Actions → Build and publish AirPlay**. Se ejecuta al subir a `main`; también puedes iniciarlo con **Run workflow**. En forks puede ser necesario habilitar Actions primero.
-4. Al terminar aparecerá la Release **v0.1.0**, con `patches-0.1.0.mpp`. El workflow completará el botón **Añadir a Morphe** y los metadatos de actualización usando el nombre real de tu repositorio.
-5. En Morphe también puedes abrir **Fuentes → + → Remoto** y pegar la URL de tu repositorio.
+1. Install Morphe and open the **Add to Morphe** link above, or open **Sources → + → Remote** and enter `https://github.com/sharklatan/AirPlayTY`.
+2. Enable **Expert mode** to select patches from multiple sources.
+3. Select the original YouTube **21.30.216** APK, then select the official Morphe YouTube patches and **SharkLatan AirPlay** for the same run. Keep **Spoof video streams** enabled.
+4. Patch and install the result. Import your existing APK signing keystore in Morphe first if the result must update an existing installation. Keep the same output package name as that installation.
 
-No debes compilar en tu PC ni disponer de nuestra clave de firma. GitHub genera el paquete para los usuarios. Si GitHub bloquea escrituras por políticas de la organización, habilita permisos de lectura y escritura de Actions para que publique los metadatos.
+The patch does not change the YouTube launcher icon. If you want to keep the original icon, leave the official **Custom branding** patch disabled.
 
-Para aparecer en el buscador comunitario, envía la URL pública en [Submit a bundle](https://morphe-patches.software/). Publicar el repositorio no lo agrega automáticamente a ese índice.
+For a previously added source showing **Unnamed**, open its card in **Sources** and press **Update**. Release 0.1.0 fixes the timestamp format that prevented Morphe from downloading the original source metadata.
 
-## Uso local sin publicar
+## Features
 
-Importa el `.mpp` desde **Fuentes → + → Local**. El primer paquete verificado se adjunta en el ZIP de entrega, en `release/`. Para recibir actualizaciones automáticas usa la fuente remota publicada.
+- AirPlay button in YouTube's native player controls, independent of Cast button visibility.
+- Device picker using the application's resources and active theme.
+- Video and audio streaming, native play/pause and seek controls, receiver volume control.
+- Local thumbnail during streaming, automatic next-video playback and local playback recovery after the receiver session ends.
+- Long-press a receiver to choose video with audio or audio only.
 
-El paquete de parches no contiene la clave que firma tu YouTube. Morphe sigue firmando las APK con la clave que hayas importado en sus ajustes.
+Seek operations may reopen the receiver session when direct seeking is not confirmed, causing a visible interruption. Other AirPlay receivers still require interoperability testing; support for AirPlay on a TV does not certify this sender implementation.
 
-## Compilar desde el código
+## Releases and updates
 
-Requisitos: Python 3.10+, JDK 21+ para el compilador de parches, JDK 17 para las herramientas Android, Android SDK con plataforma 33 y Build Tools 34.0.0.
+GitHub Actions builds and publishes the `.mpp`, its checksum and the source metadata. Users do not compile anything: **Add to Morphe** registers this repository so Morphe can download the published bundle and check for updates.
+
+Use the current bundle linked by `patches-bundle.json`.
+
+To list the source in the community directory, submit this public repository through [Submit a bundle](https://morphe-patches.software/). Creating the repository does not automatically add it to the directory.
+
+## Build from source
+
+Requirements: Python 3.10+, JDK 21+ for the patch compiler, JDK 17 for the Android tools, Android SDK platform 33 and Build Tools 34.0.0.
 
 ```sh
-# JAVA_HOME: JDK 21 o superior
+# JAVA_HOME: JDK 21 or newer
 # AIRPLAY_JAVA_HOME: JDK 17
 # ANDROID_HOME: Android SDK
 python tools/build.py --version 0.1.0
 ```
 
-Las dependencias públicas se descargan y se comprueba su SHA-256. El resultado queda en `dist/`. El comando también carga el paquete con Morphe para validar su registro. El proceso no requiere APK, cuentas de Google, credenciales personales de GitHub ni claves privadas.
+Dependencies are downloaded from public repositories and verified against pinned SHA-256 checksums. Output is written to `dist/`. The build loads the generated artifact with Morphe to verify patch registration. No YouTube APK, private signing key or Google account is needed to build the bundle.
 
-La estructura Gradle proviene de la plantilla oficial y permite continuar el desarrollo con los plugins de Morphe; su resolución de paquetes puede requerir acceso a GitHub Packages. La ruta pública de compilación comprobada es `tools/build.py` y es la que usa nuestro workflow.
+The Gradle project layout comes from the official template. Gradle plugin resolution may require GitHub Packages access. The verified public build path is `tools/build.py`, also used by the release workflow.
 
-## Funciones y límites
+## License and origin
 
-- Icono AirPlay en la fila nativa de controles, sin depender de la visibilidad del botón Cast.
-- Selector con recursos y colores de la aplicación.
-- Miniatura local, controles de reproducción y volumen del receptor.
-- Avance automático y recuperación local al terminar una sesión.
-- Los saltos de tiempo usan reapertura de sesión cuando el receptor no confirma un salto directo; pueden producir un corte visible.
-- Pulsación larga en el receptor: vídeo y audio / solo audio.
-- Mismo acceso de red local que necesita AirPlay. No se envían credenciales de la cuenta de YouTube al televisor.
-
-Las referencias de recursos y puntos de control están limitadas a esta base exacta. Para otras versiones hay que adaptar y probar, no solo ampliar los metadatos.
-
-## Licencias y procedencia
-
-GPL-3.0, con los avisos conservados de la plantilla. Consulta `LICENSE`, `NOTICE`, `THIRD_PARTY_NOTICES.md` y `licenses/`. Producto independiente de Sharklatan; las referencias a Morphe, YouTube y AirPlay describen compatibilidad y no implican patrocinio ni certificación.
+GPL-3.0 with the original template notices preserved. See `LICENSE`, `NOTICE`, `THIRD_PARTY_NOTICES.md` and `licenses/`. References to Morphe, YouTube and AirPlay describe compatibility and do not imply sponsorship, endorsement or certification.
