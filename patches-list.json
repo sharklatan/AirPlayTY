@@ -1,0 +1,21 @@
+{
+  "version": "0.1.0",
+  "patches": [
+    {
+      "name": "Sharklatan AirPlay",
+      "description": "AirPlay para YouTube 21.30.216 previamente parcheado con Morphe. Segundo paso independiente.",
+      "default": false,
+      "compatiblePackages": [
+        {
+          "packageName": "app.morphe.android.youtube",
+          "targets": [
+            {
+              "version": "21.30.216",
+              "experimental": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
