@@ -3,7 +3,7 @@
 Parche independiente compatible con **Morphe**, para enviar vídeo y audio de YouTube a un receptor AirPlay utilizando los controles y gestos nativos de YouTube.
 
 <!-- ADD_SOURCE_START -->
-El botón **Añadir a Morphe** se completa automáticamente al publicar el repositorio y terminar su primera compilación en GitHub Actions.
+[Añadir a Morphe](https://morphe.software/add-source?github=sharklatan/AirPlayTY)
 <!-- ADD_SOURCE_END -->
 
 ## Compatibilidad de esta versión
